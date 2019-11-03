@@ -1,0 +1,51 @@
+{
+  "name": "spt-cli",
+  "version": "0.0.1",
+  "description": "test your internet connection speed and ping ",
+  "homepage": "https://github.com/gaoyanhui651/spt-cli",
+  "bugs": {
+    "url": "https://github.com/gaoyanhui651/spt-cli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaoyanhui651/spt-cli.git"
+  },
+  "license": "ISC",
+  "author": "gaoyanhui",
+  "bin": {
+    "spt": "./lib/bin/spt.js"
+  },
+  "scripts": {
+    "build": "tsc --noEmit false --sourceMap false",
+    "dev:w": "tsc -w",
+    "prepublish": "rm -rf lib && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.8.18",
+    "cli-table": "^0.3.1",
+    "commander": "^3.0.2",
+    "round-to": "^4.0.0",
+    "semver": "^6.3.0",
+    "speedtest-net": "^1.6.0",
+    "update-notifier": "^3.0.1",
+    "x256": "0.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/blessed": "^0.1.12",
+    "@types/node": "^12.11.5",
+    "@types/update-notifier": "^2.5.0",
+    "prettier": "^1.18.2",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4"
+  },
+  "engines": {
+    "node": ">=8"
+  }
+}
