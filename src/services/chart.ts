@@ -1,6 +1,6 @@
 import { screen, Widgets } from 'blessed';
 import { line } from 'blessed-contrib';
-import stat from './stat';
+// import stat from './stat';
 import test from './test';
 
 function randomColor(): any {
@@ -12,7 +12,7 @@ export class Chart {
   line: ReturnType<typeof line>;
   count = 0;
   constructor(props?) {
-    stat.on('update', this.updateData.bind(this));
+    // stat.on('update', this.updateData.bind(this));
     this.screen = screen({
       // output: process.stdout,
     });
