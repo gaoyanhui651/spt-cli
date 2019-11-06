@@ -1,7 +1,7 @@
 {
   "name": "spt-cli",
   "version": "0.0.1",
-  "description": "test your internet connection speed and ping ",
+  "description": "internet connection speed and ping and so on",
   "homepage": "https://github.com/gaoyanhui651/spt-cli",
   "bugs": {
     "url": "https://github.com/gaoyanhui651/spt-cli/issues"
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/gaoyanhui651/spt-cli.git"
   },
-  "license": "ISC",
+  "license": "MIT",
   "author": "gaoyanhui",
   "bin": {
     "spt": "./lib/bin/spt.js"

@@ -41,29 +41,29 @@ commander
     try {
       new Chart().init();
     } catch (e) {
-      e && logger.error(e.message || e.stack);
+      errorHandle(e);
     }
   })
 
 commander
   .command('ip [host]')
   .description('get ip address the local or input host public or internal')
-  .option('-t --type [type]', 'select ip type', /^(all|public|internal)$/, 'all')
+  .option('-t --type [type]', 'select network type', /^(all|public|internal)$/, 'all')
   .action(async (host, cmdObj) => {
     try {
       await genIps(host, cmdObj)
     } catch (e) {
-      e && logger.error(e.message || e.stack);
+      errorHandle(e);
     }
   })
   .on('--help', function() {
     console.log();
-    console.log('  Examples:');
+    console.log('Examples:');
     console.log();
-    console.log(chalk.gray('   # 获取本机的公网和内网ip'));
+    console.log(chalk.gray('    # 获取本机的公网和局域网ip'));
     console.log('    $ spt ip');
     console.log();
-    console.log(chalk.gray('   # 只获取本机的公网地址'));
+    console.log(chalk.gray('    # 只获取本机的公网地址'));
     console.log('    $ spt ip -t public');
     console.log();
     console.log(chalk.gray('    # 获取指定网址的公网地址'));
@@ -78,5 +78,10 @@ if (!process.argv.slice(2).length) {
 
 function notCmd(cmd: string) {
   logger.error(`no <${cmd}> command given!`);
+  process.exit(1);
+}
+
+function errorHandle(e?: Error) {
+  e && logger.error(e.message || e.stack);
   process.exit(1);
 }
