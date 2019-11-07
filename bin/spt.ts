@@ -37,9 +37,12 @@ commander.version(`
 commander
   .command('test')
   .description('test network speet')
-  .action(async () => {
+  .option('-b --bytes [boolean]', 'output the result in megabytes per second (MBps)', false)
+  .option('-t --time [number]', 'the maximum length (in ms) of a single test run (upload or download)', 3000)
+  .option('-p --proxy [url]', 'The proxy for upload or download, support http and https')
+  .action(async (cmdObj) => {
     try {
-      await test();
+      await test(cmdObj);
     } catch (e) {
       errorHandle(e);
     }

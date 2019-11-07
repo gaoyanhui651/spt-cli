@@ -2,7 +2,7 @@ import fs from 'fs';
 import Table from 'cli-table3';
 import { format } from 'date-fns'
 import chalk from 'chalk';
-import { formatBytes } from './helpers';
+import { formatBytes, formatSpeed } from './helpers';
 
 const fileName = '.temp_test_record.log';
 
@@ -42,13 +42,13 @@ const keyMap = [{
     format(data) { return chalk.greenBright(data.ip) }
 }, {
   key: 'download',
-    format(data) { return chalk.blueBright(data.download)  }
+    format(data, isBytes) { return chalk.blueBright(formatSpeed(data.download, isBytes, false))  }
 }, {
   key: 'upload',
-    format(data) { return chalk.magentaBright(data.upload) }
+    format(data, isBytes) { return chalk.magentaBright(formatSpeed(data.upload, isBytes, false)) }
 }, {
   key: 'ping',
-  format(data) { return chalk.yellowBright(data.ping) }
+  format(data) { return chalk.yellowBright(data.ping + ' ms') }
 }, {
   key: 'traffic cost',
   format(data) {
@@ -71,11 +71,14 @@ const keyMap = [{
 }]
 
 
-function formatTable(data) {
-  return keyMap.map(({ format }) => format(data)).filter(v => v !== null);
+function formatTable(data, isBytes = false) {
+  return keyMap.map(({ format }) => format(data, isBytes)).filter(v => v !== null);
 }
 
-export function showHistory(dataList, isHasTime = false) {
+export function showHistory(dataList, {
+  isHasTime = false,
+  isBytes = false
+} = {}) {
   const head = keyMap.map(({ key }) => key);
   if (!isHasTime) {
     head.shift();
@@ -90,7 +93,7 @@ export function showHistory(dataList, isHasTime = false) {
     }
   }) as Table.HorizontalTable;
   dataList.forEach(datum => {
-    table.push(formatTable(datum));
+    table.push(formatTable(datum, isBytes));
   });
   console.log(table.toString());
 }

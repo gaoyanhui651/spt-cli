@@ -5,10 +5,15 @@ import chalk from 'chalk';
 import logger from '../utils/logger';
 import stat from './stat';
 import { pushHistory, showHistory } from '../utils/history';
+import { formatSpeed } from '../utils/helpers';
 
-
-export default async function init(maxTime = 3000,) {
-  const st = speedTest({ maxTime, pingCount: 3 });
+export default async function init({
+  time = 3000,
+  bytes = false,
+  proxy
+}) {
+  const st = speedTest({ maxTime: time, pingCount: 3, proxy });
+  const isBytes = !!bytes;
   st.on('error', error => {
     if (error.code === 'ENOTFOUND') {
       logger.error('Please check your internet connection');
@@ -26,7 +31,7 @@ export default async function init(maxTime = 3000,) {
           st.once('testserver', server => {
             ping = roundTo(server.bestPing, 0);
             stat.updateStat('ping', ping);
-            task.title += chalk.yellowBright('      ' + ping);
+            task.title += chalk.yellowBright('       ' + ping + '  ms');
             ctx.status = 0;
             resolve(ping);
           });
@@ -41,14 +46,14 @@ export default async function init(maxTime = 3000,) {
             if (ctx.status < 1) {
               const download = roundTo(speed, 2);
               stat.updateStat('download', download);
-              task.title = 'download' + chalk.greenBright('   ' + download);
+              task.title = 'download' + chalk.greenBright('   ' + formatSpeed(download, isBytes));
             }
           });
           st.on('downloadspeed', speed => {
             const download = roundTo(speed, 2);
             ctx.status = 1;
             stat.updateStat('download', download);
-            task.title = 'download' + chalk.greenBright('   ' + download);
+            task.title = 'download' + chalk.greenBright('   ' + formatSpeed(download, isBytes));
             resolve(download);
           });
         })
@@ -62,14 +67,14 @@ export default async function init(maxTime = 3000,) {
             if (ctx.status < 2) {
               const upload = roundTo(speed, 2);
               stat.updateStat('upload', upload);
-              task.title = 'upload' + chalk.magentaBright('   ' + upload);  
+              task.title = 'upload' + chalk.magentaBright('     ' + formatSpeed(upload, isBytes));  
             }
            });
           st.on('uploadspeed', speed => {
             const upload = roundTo(speed, 2);
             ctx.status = 2;
             stat.updateStat('upload', upload);
-            task.title = 'upload' + chalk.magentaBright('   ' + upload);  
+            task.title = 'upload' + chalk.magentaBright('     ' + formatSpeed(upload, isBytes));  
             resolve(upload);
           });
         })
@@ -110,6 +115,6 @@ export default async function init(maxTime = 3000,) {
     })
   ]);
   console.log('\n');
-  showHistory([formatData]);
+  showHistory([formatData], { isBytes });
 }
 
