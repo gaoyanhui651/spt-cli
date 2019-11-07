@@ -6,8 +6,8 @@ import Ora from 'ora';
 import Table from 'cli-table3';
 
 import { getHost, getGeoByIp } from '../utils/helpers';
+import { colors } from '../utils/constants';
 
-const colors = ['greenBright', 'yellowBright', 'blueBright', 'magentaBright', 'cyanBright'];
 
 type tableInstance = Table.GenericTable<Table.Cell[]>;
 

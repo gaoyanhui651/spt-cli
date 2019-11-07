@@ -6,7 +6,7 @@ import notifier from 'update-notifier';
 import pkg from '../package.json';
 import lolcat from '../src/utils/lolcat';
 import logger from '../src/utils/logger';
-import { Chart } from '../src/services/chart.js';
+import test from '../src/services/test';
 import genIps from '../src/services/get-ip.js';
 import favicon from '../favicon';
 import chalk from 'chalk';
@@ -39,7 +39,7 @@ commander
   .description('test network speet')
   .action(async () => {
     try {
-      new Chart().init();
+      await test();
     } catch (e) {
       errorHandle(e);
     }
@@ -75,6 +75,11 @@ commander.parse(process.argv);
 if (!process.argv.slice(2).length) {
   commander.help();
 }
+
+process.on('SIGINT', function () {
+  logger.warn('spt dialog kill by user!');
+  process.exit()
+});
 
 function notCmd(cmd: string) {
   logger.error(`no <${cmd}> command given!`);
