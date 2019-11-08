@@ -25,9 +25,9 @@
 //       label: 'Mbps/s',
 //       wholeNumbersOnly: false,
 //       // abbreviate: true,
-//       style: { 
-//         line: randomColor(), 
-//         text: randomColor(), 
+//       style: {
+//         line: randomColor(),
+//         text: randomColor(),
 //         baseline: randomColor()
 //       },
 //     });

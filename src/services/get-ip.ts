@@ -19,7 +19,7 @@ export async function getPublicIp<T extends tableInstance>(table?: T) {
   if (table instanceof Table) {
     table.push(['public-ip4', chalk.bold.greenBright(ip), geo.location]);
   }
-  return {ip, geo};
+  return { ip, geo };
 }
 
 export async function getInternalIp<T extends tableInstance>(table?: T) {
@@ -32,7 +32,7 @@ export async function getInternalIp<T extends tableInstance>(table?: T) {
 export type ipType = 'public' | 'internal' | 'all';
 export type optionType = {
   type: ipType;
-}
+};
 export default async function genIps(host: string, { type = 'all' }: optionType) {
   const spinner = Ora({
     prefixText: 'get ips',
@@ -50,9 +50,9 @@ export default async function genIps(host: string, { type = 'all' }: optionType)
     style: {
       head: ['cyan'],
       border: ['cyanBright'],
-    }
+    },
   }) as Table.HorizontalTable;
-  
+
   if (isInputHost) {
     const hostname = getHost(host);
     const addresses = await resolve4Async(hostname);
@@ -60,26 +60,30 @@ export default async function genIps(host: string, { type = 'all' }: optionType)
       const geo = getGeoByIp(address);
       const ip = chalk.italic[COLORS[i]](address);
       if (i === 0) {
-        table.push([{ rowSpan: addresses.length, content: chalk.magentaBright(hostname), vAlign: 'center' }, ip, geo.location]);
+        table.push([
+          { rowSpan: addresses.length, content: chalk.magentaBright(hostname), vAlign: 'center' },
+          ip,
+          geo.location,
+        ]);
       } else {
         table.push([ip, geo.location]);
       }
-    })
+    });
     spinner.succeed();
-    console.log(table.toString())
+    console.log(table.toString());
     return addresses;
   }
   // 过去本机 address
   const promises = [];
   if (type === 'public') {
-    promises.push(getPublicIp(table))
-  } else if (type == 'internal'){
-    promises.push(getInternalIp(table))
+    promises.push(getPublicIp(table));
+  } else if (type == 'internal') {
+    promises.push(getInternalIp(table));
   } else {
-    Array.prototype.push.call(promises, getPublicIp(table), getInternalIp(table), );
+    Array.prototype.push.call(promises, getPublicIp(table), getInternalIp(table));
   }
   const ips = await Promise.all(promises);
   spinner.succeed();
-  console.log(table.toString())
+  console.log(table.toString());
   return ips;
-};
+}

@@ -1,6 +1,6 @@
 import Ora from 'ora';
-import { clearHistory, readHistory, showHistory } from "../utils/history";
-import logger from "../utils/logger";
+import { clearHistory, readHistory, showHistory } from '../utils/history';
+import logger from '../utils/logger';
 
 export default async function list(line = 3, { clear = false, bytes = false, verbose = false }) {
   const isClear = Boolean(clear);

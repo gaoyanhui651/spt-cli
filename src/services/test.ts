@@ -7,11 +7,7 @@ import stat from './stat';
 import { pushHistory, showHistory } from '../utils/history';
 import { formatSpeed } from '../utils/helpers';
 
-export default async function init({
-  time = 3000,
-  bytes = false,
-  proxy
-}) {
+export default async function init({ time = 3000, bytes = false, proxy }) {
   const st = speedTest({ maxTime: time, pingCount: 3, proxy });
   const isBytes = !!bytes;
   st.on('error', error => {
@@ -35,7 +31,7 @@ export default async function init({
             ctx.status = 0;
             resolve(ping);
           });
-        })
+        });
       },
     },
     {
@@ -56,8 +52,8 @@ export default async function init({
             task.title = 'download' + chalk.greenBright('   ' + formatSpeed(download, isBytes));
             resolve(download);
           });
-        })
-      }
+        });
+      },
     },
     {
       title: 'upload',
@@ -67,19 +63,19 @@ export default async function init({
             if (ctx.status < 2) {
               const upload = roundTo(speed, 2);
               stat.updateStat('upload', upload);
-              task.title = 'upload' + chalk.magentaBright('     ' + formatSpeed(upload, isBytes));  
+              task.title = 'upload' + chalk.magentaBright('     ' + formatSpeed(upload, isBytes));
             }
-           });
+          });
           st.on('uploadspeed', speed => {
             const upload = roundTo(speed, 2);
             ctx.status = 2;
             stat.updateStat('upload', upload);
-            task.title = 'upload' + chalk.magentaBright('     ' + formatSpeed(upload, isBytes));  
+            task.title = 'upload' + chalk.magentaBright('     ' + formatSpeed(upload, isBytes));
             resolve(upload);
           });
-        })
-      }
-    }
+        });
+      },
+    },
   ]);
   const [, formatData] = await Promise.all([
     tasks.run(),
@@ -101,20 +97,19 @@ export default async function init({
           await pushHistory(formatData);
           resolve(formatData);
         } catch (error) {
-          reject(error)
+          reject(error);
         }
       });
     }),
     new Promise(resolve => {
       st.on('done', dataOverload => {
-        resolve(dataOverload)
+        resolve(dataOverload);
       });
       st.on('config', url => {
         // console.log('config', url);
       });
-    })
+    }),
   ]);
   console.log('\n');
   showHistory([formatData], { isBytes });
 }
-

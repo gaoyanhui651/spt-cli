@@ -19,6 +19,7 @@
     "build": "tsc --noEmit false --sourceMap false",
     "dev:w": "tsc -w",
     "prepublish": "rm -rf lib && npm run build",
+    "prettier": "prettier --write \"src/**/*\" \"bin/**\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

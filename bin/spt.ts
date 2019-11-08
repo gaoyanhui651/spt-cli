@@ -18,36 +18,42 @@ const version = pkg.version;
 if (!semver.satisfies(process.version, requiredVersion)) {
   logger.error(
     `You are using Node ${process.version}, but this version of spd ` +
-    `requires Node ${requiredVersion}.\nPlease upgrade your Node version.`
+      `requires Node ${requiredVersion}.\nPlease upgrade your Node version.`,
   );
   process.exit(1);
 }
 // 检查提示更新
 notifier({ pkg }).notify({ defer: true });
 
-commander.version(`
+commander
+  .version(
+    `
   v${version}
   ${lolcat(favicon)}
-`)
+`,
+  )
   .usage('<command> [options]')
   // .allowUnknownOption()
   .arguments('<cmd> [option...]')
   .action(notCmd);
 
-
 commander
   .command('test')
   .description('test network speet')
   .option('-b --bytes [boolean]', 'output the result in megabytes per second (MBps)', false)
-  .option('-t --time [number]', 'the maximum length (in ms) of a single test run (upload or download)', 3000)
+  .option(
+    '-t --time [number]',
+    'the maximum length (in ms) of a single test run (upload or download)',
+    3000,
+  )
   .option('-p --proxy [url]', 'The proxy for upload or download, support http and https')
-  .action(async (cmdObj) => {
+  .action(async cmdObj => {
     try {
       await test(cmdObj);
     } catch (e) {
       errorHandle(e);
     }
-  })
+  });
 
 commander
   .command('list [line]')
@@ -62,7 +68,7 @@ commander
       errorHandle(e);
     }
   })
-  .on('--help', function () {
+  .on('--help', function() {
     console.log();
     console.log('Examples:');
     console.log();
@@ -75,7 +81,7 @@ commander
     console.log(chalk.gray('    # 清除所有的网络测速记录'));
     console.log('    $ spt list -c');
     console.log();
-  })
+  });
 
 commander
   .command('ip [host]')
@@ -83,7 +89,7 @@ commander
   .option('-t --type [type]', 'select network type', /^(all|public|internal)$/, 'all')
   .action(async (host, cmdObj) => {
     try {
-      await genIps(host, cmdObj)
+      await genIps(host, cmdObj);
     } catch (e) {
       errorHandle(e);
     }
@@ -101,16 +107,16 @@ commander
     console.log(chalk.gray('    # 获取指定网址的公网地址'));
     console.log('    $ spt ip baidu.com');
     console.log();
-  })
+  });
 
 commander.parse(process.argv);
 if (!process.argv.slice(2).length) {
   commander.help();
 }
 
-process.on('SIGINT', function () {
+process.on('SIGINT', function() {
   logger.warn('spt dialog kill by user!');
-  process.exit()
+  process.exit();
 });
 
 function notCmd(cmd: string) {

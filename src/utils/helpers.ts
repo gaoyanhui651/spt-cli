@@ -21,7 +21,7 @@ export function genSize(bytes, i, decimals = 2) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
 }
 export function genBytes(mbs: number) {
-  return mbs / 8 * Math.pow(1024, 2);
+  return (mbs / 8) * Math.pow(1024, 2);
 }
 
 export function formatSpeed(speed: number, isBytes = false, isPadend = true) {
@@ -42,7 +42,7 @@ export function formatBytes(bytes, decimals = 2) {
       i: 0,
       unit: sizes[0],
       sizeStr: 0 + ' ' + sizes[0],
-      size: 0
+      size: 0,
     };
   }
 
@@ -54,6 +54,6 @@ export function formatBytes(bytes, decimals = 2) {
     i,
     unit: sizes[i],
     sizeStr: size + ' ' + sizes[i],
-    size
+    size,
   };
-};
+}

@@ -1,4 +1,4 @@
-export type IStatKey = 'ping' | 'download'| 'upload' | 'info';
+export type IStatKey = 'ping' | 'download' | 'upload' | 'info';
 
 // const statKeys = ['ping', 'download', 'upload', 'info'] as IStatKey[];
 
@@ -8,7 +8,7 @@ class Stat {
     download: new Set<number>(),
     upload: new Set<number>(),
     info: {},
-  }
+  };
   eventMap = new Map();
   status: 'pending' | IStatKey = 'pending';
 
@@ -37,9 +37,9 @@ class Stat {
     }
     this.eventMap.forEach((callList, e) => {
       callList.forEach(callback => {
-        callback(e, this.stat, this.status)
+        callback(e, this.stat, this.status);
       });
-    })
+    });
   }
   on(event, callback) {
     this.eventMap.has(event) || this.eventMap.set(event, []);
