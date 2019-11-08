@@ -6,7 +6,7 @@ import Ora from 'ora';
 import Table from 'cli-table3';
 
 import { getHost, getGeoByIp } from '../utils/helpers';
-import { colors } from '../utils/constants';
+import { COLORS } from '../utils/constants';
 
 
 type tableInstance = Table.GenericTable<Table.Cell[]>;
@@ -56,7 +56,7 @@ export default async function genIps(host: string, { type = 'all' }: optionType)
     const addresses = await dns.promises.resolve4(hostname);
     addresses.forEach((address, i) => {
       const geo = getGeoByIp(address);
-      const ip = chalk.italic[colors[i]](address);
+      const ip = chalk.italic[COLORS[i]](address);
       if (i === 0) {
         table.push([{ rowSpan: addresses.length, content: chalk.magentaBright(hostname), vAlign: 'center' }, ip, geo.location]);
       } else {

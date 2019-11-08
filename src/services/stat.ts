@@ -1,6 +1,6 @@
 export type IStatKey = 'ping' | 'download'| 'upload' | 'info';
 
-const statKeys = ['ping', 'download', 'upload', 'info'] as IStatKey[];
+// const statKeys = ['ping', 'download', 'upload', 'info'] as IStatKey[];
 
 class Stat {
   stat = {

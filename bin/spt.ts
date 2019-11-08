@@ -7,7 +7,8 @@ import pkg from '../package.json';
 import lolcat from '../src/utils/lolcat';
 import logger from '../src/utils/logger';
 import test from '../src/services/test';
-import genIps from '../src/services/get-ip.js';
+import genIps from '../src/services/get-ip';
+import list from '../src/services/list';
 import favicon from '../favicon';
 import chalk from 'chalk';
 
@@ -46,6 +47,34 @@ commander
     } catch (e) {
       errorHandle(e);
     }
+  })
+
+commander
+  .command('list [line]')
+  .description('show network speet history')
+  .option('-c --clear [boolean]', 'clear all network speet history', false)
+  .option('-b --bytes [boolean]', 'output the result in megabytes per second (MBps)', false)
+  .option('-v --verbose [boolean]', 'output more detailed information', false)
+  .action(async (line, cmdObj) => {
+    try {
+      await list(line, cmdObj);
+    } catch (e) {
+      errorHandle(e);
+    }
+  })
+  .on('--help', function () {
+    console.log();
+    console.log('Examples:');
+    console.log();
+    console.log(chalk.gray('    # 展示网络测速记录 默认最新的3条'));
+    console.log('    $ spt list');
+    console.log();
+    console.log(chalk.gray('    # 展示 6条 网络测速详细记录'));
+    console.log('    $ spt list 6 -s');
+    console.log();
+    console.log(chalk.gray('    # 清除所有的网络测速记录'));
+    console.log('    $ spt list -c');
+    console.log();
   })
 
 commander

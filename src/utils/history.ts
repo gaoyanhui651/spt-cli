@@ -1,15 +1,23 @@
 import fs from 'fs';
+import { promisify } from 'util';
 import Table from 'cli-table3';
 import { format } from 'date-fns'
 import chalk from 'chalk';
+import Readline from 'reverse-read-line';
 import { formatBytes, formatSpeed } from './helpers';
+import { FILE_NAME, EXCLUDE_COLUMNS } from './constants';
 
-const fileName = '.temp_test_record.log';
+const appendFileAsync = promisify(fs.appendFile);
+const truncateAsync = promisify(fs.truncate);
 
 export function pushHistory(data) {
+  return appendFileAsync(FILE_NAME, `\n${new Date()} => ${JSON.stringify(data)}`);
   return new Promise((resolve, reject) => {
+    // https://nodejs.org/dist/latest-v12.x/docs/api/fs.html#fs_fs_write_fd_buffer_offset_length_position_callback
+    // 在 Linux 上，当以追加模式打开文件时，写入无法指定位置。 内核会忽略位置参数，并始终将数据追加到文件的末尾。
+
     // const buffer = new Buffer(`\n${new Date()} => ${JSON.stringify(data)}`);
-    // const fd = fs.openSync(fileName, 'a+');
+    // const fd = fs.openSync(FILE_NAME, 'a+');
     // fs.write(fd, buffer, 0, buffer.length, 0, error => {
     //     if (error) {
     //     reject(error);
@@ -17,21 +25,27 @@ export function pushHistory(data) {
     //     resolve();
     //   }
     // })
-    fs.appendFile(fileName, `\n${new Date()} => ${JSON.stringify(data)}`, error => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    })
   })
 }
 
-const keyMap = [{
+
+export async function readHistory(line = 6): Promise<Array<string>> {
+  const reader = new Readline(FILE_NAME);
+  await reader.open()
+  const lines = await reader.readLines(line);
+  await reader.close();
+  return lines;
+}
+
+export function clearHistory() {
+  return truncateAsync(FILE_NAME, 0);
+}
+
+const columnsMap = [{
   key: 'datetime',
   format(data) {
     try {
-      const time = format(data.datetime, 'YYYY-MM-dd HH:MM:SS');
+      const time = format(new Date(data.datetime), 'yyyy-MM-dd HH:mm:ss');
       return time;
     } catch (error) {
       return null;
@@ -71,15 +85,23 @@ const keyMap = [{
 }]
 
 
-function formatTable(data, isBytes = false) {
-  return keyMap.map(({ format }) => format(data, isBytes)).filter(v => v !== null);
+export function formatTable(data, isBytes = false, isVerbose) {
+  return getColumns(isVerbose).map(({ format }) => format(data, isBytes)).filter(v => v !== null);
 }
+
+
+function getColumns(isVerbose) {
+  const selectColumns = isVerbose ? columnsMap : columnsMap.filter(col => !EXCLUDE_COLUMNS.includes(col.key));
+  return selectColumns;
+}
+
 
 export function showHistory(dataList, {
   isHasTime = false,
-  isBytes = false
+  isBytes = false,
+  isVerbose = true,
 } = {}) {
-  const head = keyMap.map(({ key }) => key);
+  const head = getColumns(isVerbose).map(({ key }) => key);
   if (!isHasTime) {
     head.shift();
   }
@@ -93,7 +115,8 @@ export function showHistory(dataList, {
     }
   }) as Table.HorizontalTable;
   dataList.forEach(datum => {
-    table.push(formatTable(datum, isBytes));
+    const data = formatTable(datum, isBytes, isVerbose);
+    table.push(data);
   });
   console.log(table.toString());
 }

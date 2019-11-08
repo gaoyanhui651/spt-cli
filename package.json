@@ -30,6 +30,7 @@
     "listr": "^0.14.3",
     "ora": "^4.0.2",
     "public-ip": "^3.2.0",
+    "reverse-read-line": "^0.1.4",
     "round-to": "^4.0.0",
     "semver": "^6.3.0",
     "speedtest-net": "^1.6.0",
