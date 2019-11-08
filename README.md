@@ -26,6 +26,50 @@ $ spt -h
 ```
   #### SubCmd Usage
 
+  - test
+
+  ```bash
+  $ spt test -h
+  Usage: spt test [options]
+
+  test network speet
+
+  Options:
+    -b --bytes [boolean]  output the result in megabytes per second (MBps) (default: false)
+    -t --time [number]    the maximum length (in ms) of a single test run (upload or download) (default: 3000)
+    -p --proxy [url]      The proxy for upload or download, support http and https
+    -h, --help            output usage information
+  
+  ```
+
+  - list
+  
+  ```bash
+    $ spt list -h
+    Usage: spt list [options] [line]
+
+  show network speet history
+
+  Options:
+    -c --clear [boolean]    clear all network speet history (default: false)
+    -b --bytes [boolean]    output the result in megabytes per second (MBps) (default: false)
+    -v --verbose [boolean]  output more detailed information (default: false)
+    -h, --help              output usage information
+
+  Examples:
+
+      # 展示网络测速记录 默认最新的3条
+      $ spt list
+
+      # 展示 6条 网络测速详细记录
+      $ spt list 6 -s
+
+      # 清除所有的网络测速记录
+      $ spt list -c
+  ```
+
+  - ip
+
   ```bash
   $ spt ip -h
   Usage: spt ip [options] [host]

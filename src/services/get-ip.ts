@@ -1,4 +1,5 @@
 import dns from 'dns';
+import { promisify } from 'util';
 import publicIp from 'public-ip';
 import internalIp from 'internal-ip';
 import chalk from 'chalk';
@@ -8,6 +9,7 @@ import Table from 'cli-table3';
 import { getHost, getGeoByIp } from '../utils/helpers';
 import { COLORS } from '../utils/constants';
 
+const resolve4Async = promisify(dns.resolve4);
 
 type tableInstance = Table.GenericTable<Table.Cell[]>;
 
@@ -53,7 +55,7 @@ export default async function genIps(host: string, { type = 'all' }: optionType)
   
   if (isInputHost) {
     const hostname = getHost(host);
-    const addresses = await dns.promises.resolve4(hostname);
+    const addresses = await resolve4Async(hostname);
     addresses.forEach((address, i) => {
       const geo = getGeoByIp(address);
       const ip = chalk.italic[COLORS[i]](address);
