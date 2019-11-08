@@ -92,6 +92,10 @@ $ spt -h
       $ spt ip baidu.com
   ```
 
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
 ## License
 
 [MIT](https://github.com/gaoyanhui651/spt-cli/blob/master/LICENSE)
