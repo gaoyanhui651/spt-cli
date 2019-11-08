@@ -17,10 +17,12 @@ export default async function list(line = 3, { clear = false, bytes = false, ver
     const lines = await readHistory(line);
     const dataList = lines.reverse().map(datum => {
       const [datetime, data] = datum.split('=>');
-      const composeData = Object.assign({}, { datetime }, JSON.parse(data));
-      return composeData;
+      if (data) {
+        const composeData = Object.assign({}, { datetime }, JSON.parse(data));
+        return composeData;
+      }
     });
     spinner.succeed();
-    showHistory(dataList, { isHasTime: true, isBytes, isVerbose });
+    showHistory(dataList.filter(Boolean), { isHasTime: true, isBytes, isVerbose });
   }
 }

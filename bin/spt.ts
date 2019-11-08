@@ -76,7 +76,7 @@ commander
     console.log('    $ spt list');
     console.log();
     console.log(chalk.gray('    # 展示 6条 网络测速详细记录'));
-    console.log('    $ spt list 6 -s');
+    console.log('    $ spt list 6 -v');
     console.log();
     console.log(chalk.gray('    # 清除所有的网络测速记录'));
     console.log('    $ spt list -c');

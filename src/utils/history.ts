@@ -11,7 +11,7 @@ const appendFileAsync = promisify(fs.appendFile);
 const truncateAsync = promisify(fs.truncate);
 
 export function pushHistory(data) {
-  return appendFileAsync(FILE_NAME, `\n${new Date()} => ${JSON.stringify(data)}`);
+  return appendFileAsync(FILE_NAME, `${new Date()} => ${JSON.stringify(data)}\n`);
   return new Promise((resolve, reject) => {
     // https://nodejs.org/dist/latest-v12.x/docs/api/fs.html#fs_fs_write_fd_buffer_offset_length_position_callback
     // 在 Linux 上，当以追加模式打开文件时，写入无法指定位置。 内核会忽略位置参数，并始终将数据追加到文件的末尾。
@@ -31,6 +31,7 @@ export async function readHistory(line = 6): Promise<Array<string>> {
   const reader = new Readline(FILE_NAME);
   await reader.open();
   const lines = await reader.readLines(line);
+  console.log(lines)
   await reader.close();
   return lines;
 }

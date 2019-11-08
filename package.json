@@ -1,10 +1,9 @@
 {
   "name": "spt-cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "internet connection speed and ping and so on",
   "keywords": [
     "bandwidth",
-    "bin",
     "check",
     "cli",
     "connection",
@@ -28,13 +27,14 @@
     "spt": "./lib/bin/spt.js"
   },
   "scripts": {
-    "build": "tsc --noEmit false --sourceMap false",
+    "build": "tsc",
     "dev:w": "tsc -w",
     "prettier": "prettier --write \"src/**/*\" \"bin/**\"",
     "prepublish": "rm -rf lib && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "chalk": "^2.4.2",
     "cli-table3": "^0.5.1",
     "commander": "^3.0.2",
     "date-fns": "^2.6.0",

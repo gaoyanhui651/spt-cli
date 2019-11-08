@@ -26,7 +26,7 @@ $ spt -h
     ip [options] [host]  get ip address the local or input host public or internal
 
 ```
-  #### SubCmd Usage
+  ### SubCmd Usage
 
   - test
 
@@ -64,7 +64,7 @@ $ spt -h
       $ spt list
 
       # 展示 6条 网络测速详细记录
-      $ spt list 6 -s
+      $ spt list 6 -v
 
       # 清除所有的网络测速记录
       $ spt list -c
