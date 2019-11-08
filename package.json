@@ -1,7 +1,19 @@
 {
   "name": "spt-cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "internet connection speed and ping and so on",
+  "keywords": [
+    "bandwidth",
+    "bin",
+    "check",
+    "cli",
+    "connection",
+    "internet",
+    "ip",
+    "ping",
+    "speed-test",
+    "speedtest"
+  ],
   "homepage": "https://github.com/gaoyanhui651/spt-cli",
   "bugs": {
     "url": "https://github.com/gaoyanhui651/spt-cli/issues"
@@ -18,8 +30,8 @@
   "scripts": {
     "build": "tsc --noEmit false --sourceMap false",
     "dev:w": "tsc -w",
-    "prepublish": "rm -rf lib && npm run build",
     "prettier": "prettier --write \"src/**/*\" \"bin/**\"",
+    "prepublish": "rm -rf lib && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

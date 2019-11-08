@@ -3,6 +3,7 @@
 import semver from 'semver';
 import commander from 'commander';
 import notifier from 'update-notifier';
+import chalk from 'chalk';
 import pkg from '../package.json';
 import lolcat from '../src/utils/lolcat';
 import logger from '../src/utils/logger';
@@ -10,20 +11,19 @@ import test from '../src/services/test';
 import genIps from '../src/services/get-ip';
 import list from '../src/services/list';
 import favicon from '../favicon';
-import chalk from 'chalk';
 
 const requiredVersion = pkg.engines.node;
 const version = pkg.version;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   logger.error(
-    `You are using Node ${process.version}, but this version of spd ` +
+    `You are using Node ${process.version}, but this version of spt ` +
       `requires Node ${requiredVersion}.\nPlease upgrade your Node version.`,
   );
   process.exit(1);
 }
 // 检查提示更新
-notifier({ pkg }).notify({ defer: true });
+notifier({ pkg, updateCheckInterval: 1000 * 60 * 60 }).notify({ defer: true, isGlobal: true });
 
 commander
   .version(
@@ -110,9 +110,9 @@ commander
   });
 
 commander.parse(process.argv);
-if (!process.argv.slice(2).length) {
-  commander.help();
-}
+// if (!process.argv.slice(2).length) {
+//   commander.help();
+// }
 
 process.on('SIGINT', function() {
   logger.warn('spt dialog kill by user!');

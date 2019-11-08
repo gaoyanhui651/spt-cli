@@ -1,6 +1,5 @@
 __tests__
 src
-bin
 *.log
 node_modules
 .gitignore

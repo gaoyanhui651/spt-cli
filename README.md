@@ -1,4 +1,6 @@
 # spt-cli
+![NPM](https://img.shields.io/npm/v/spt-cli.svg)  ![License](https://img.shields.io/npm/l/spt-cli.svg)  ![Downloads](https://img.shields.io/npm/dt/spt-cli.svg)
+
 > internet connection speed and ping and so on
 
 ## Install
@@ -6,7 +8,7 @@
 ensure you have [Node.js](https://nodejs.org) version 8+ installed. Then run the following:
 
 ```bash
-$ npm install -g speed-cli
+$ npm install -g spt-cli
 ```
 
 ## Usage
