@@ -31,7 +31,6 @@ export async function readHistory(line = 6): Promise<Array<string>> {
   const reader = new Readline(FILE_NAME);
   await reader.open();
   const lines = await reader.readLines(line);
-  console.log(lines)
   await reader.close();
   return lines;
 }

@@ -14,15 +14,19 @@ export default async function list(line = 3, { clear = false, bytes = false, ver
       prefixText: 'get speed record',
     });
     spinner.start();
-    const lines = await readHistory(line);
-    const dataList = lines.reverse().map(datum => {
-      const [datetime, data] = datum.split('=>');
-      if (data) {
-        const composeData = Object.assign({}, { datetime }, JSON.parse(data));
-        return composeData;
-      }
-    });
-    spinner.succeed();
-    showHistory(dataList.filter(Boolean), { isHasTime: true, isBytes, isVerbose });
+    try {
+      const lines = await readHistory(line);
+      const dataList = lines.reverse().map(datum => {
+        const [datetime, data] = datum.split('=>');
+        if (data) {
+          const composeData = Object.assign({}, { datetime }, JSON.parse(data));
+          return composeData;
+        }
+      });
+      spinner.succeed();
+      showHistory(dataList.filter(Boolean), { isHasTime: true, isBytes, isVerbose });
+    } catch(err) {
+      logger.warn('您还没有测速记录，请尝试spt test命令')
+    }
   }
 }
