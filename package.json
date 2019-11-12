@@ -1,6 +1,6 @@
 {
   "name": "spt-cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "internet connection speed and ping and so on",
   "keywords": [
     "bandwidth",

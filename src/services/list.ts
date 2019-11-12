@@ -26,7 +26,9 @@ export default async function list(line = 3, { clear = false, bytes = false, ver
       spinner.succeed();
       showHistory(dataList.filter(Boolean), { isHasTime: true, isBytes, isVerbose });
     } catch(err) {
-      logger.warn('您还没有测速记录，请尝试spt test命令')
+      spinner.clear();
+      logger.warn('您还没有测速记录，请尝试spt test命令');
+      process.exit();
     }
   }
 }
